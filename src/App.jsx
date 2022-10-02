@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import Header from './components/Header'
 import Modal from './components/Modal'
+import ListSpents from './components/ListSpents'
 
 import { generateId } from './helpers'
 
@@ -23,11 +24,12 @@ function App() {
 
   const saveSpent = spent => {
     spent.id = generateId()
+    spent.date = Date.now()
     setSpents([...spents, spent])
   }
 
   return (
-    <div>
+    <div className={modal && 'fijar'}>
       <Header
         budget={budget}
         setBudget={setBudget}
@@ -36,13 +38,18 @@ function App() {
       />
 
       {validBudget && (
-        <div className="nuevo-gasto">
-          <img
-            src={IconNewSpent}
-            alt='new-spent'
-            onClick={handleNewWSpent}
-          />
-        </div>
+        <>
+          <main>
+            <ListSpents spents={spents} />
+          </main>
+          <div className="nuevo-gasto">
+            <img
+              src={IconNewSpent}
+              alt='new-spent'
+              onClick={handleNewWSpent}
+            />
+          </div>
+        </>
       )}
 
       {modal && <Modal
