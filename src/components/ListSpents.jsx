@@ -27,7 +27,7 @@ const dicIcons = {
   gastos: IconoGastos
 }
 
-const ListSpents = ({ spents, setEditSpent }) => {
+const ListSpents = ({ spents, setEditSpent, handleDelete }) => {
   
   const leadingActions = (spent) => (
     <LeadingActions>
@@ -37,9 +37,9 @@ const ListSpents = ({ spents, setEditSpent }) => {
     </LeadingActions>
   )
 
-  const trailingActions = () => (
+  const trailingActions = (id, nombre) => (
     <TrailingActions>
-      <SwipeAction onClick={() => {}}>
+      <SwipeAction destructive onClick={() => handleDelete(id, nombre)}>
         Borrar
       </SwipeAction>
     </TrailingActions>
@@ -54,7 +54,7 @@ const ListSpents = ({ spents, setEditSpent }) => {
         <SwipeableList key={spent.id}>
           <SwipeableListItem
             leadingActions={leadingActions(spent)}
-            trailingActions={trailingActions()}
+            trailingActions={trailingActions(spent.id, spent.nombre)}
           >
             <div className='gasto sombra'>
               <div className="contenido-gasto">

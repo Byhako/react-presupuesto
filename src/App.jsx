@@ -32,13 +32,17 @@ function App() {
       const newSpets = spents.map(stateSpent =>
         stateSpent.id === spent.id ? spent : stateSpent
       )
-      console.log(newSpets)
       setSpents(newSpets)
     } else {
       spent.id = generateId()
       spent.date = Date.now()
       setSpents([...spents, spent])
     }
+  }
+
+  const handleDelete = (id, nombre) => {
+    const newSpets = spents.filter(spent => spent.id !== id)
+    setSpents(newSpets)
   }
 
   return (
@@ -54,7 +58,11 @@ function App() {
       {validBudget && (
         <>
           <main>
-            <ListSpents setEditSpent={setEditSpent} spents={spents} />
+            <ListSpents
+              setEditSpent={setEditSpent}
+              spents={spents}
+              handleDelete={handleDelete}
+            />
           </main>
           <div className="nuevo-gasto">
             <img
