@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import Header from './components/Header'
 import Modal from './components/Modal'
@@ -14,18 +14,31 @@ function App() {
   const [modal, setModal] = useState(false)
   const [animateModal, setAnimateModal] = useState(false)
   const [spents, setSpents] = useState([])
+  const [editSpent, setEditSpent] = useState({})
+
+  useEffect(() => {
+    if (editSpent.nombre) handleNewWSpent()
+  }, [editSpent])
 
   const handleNewWSpent = () => {
     setModal(true)
     setTimeout(() => {
       setAnimateModal(true)
-    }, 600);
+    }, 500);
   }
 
   const saveSpent = spent => {
-    spent.id = generateId()
-    spent.date = Date.now()
-    setSpents([...spents, spent])
+    if (spent.id) {
+      const newSpets = spents.map(stateSpent =>
+        stateSpent.id === spent.id ? spent : stateSpent
+      )
+      console.log(newSpets)
+      setSpents(newSpets)
+    } else {
+      spent.id = generateId()
+      spent.date = Date.now()
+      setSpents([...spents, spent])
+    }
   }
 
   return (
@@ -41,7 +54,7 @@ function App() {
       {validBudget && (
         <>
           <main>
-            <ListSpents spents={spents} />
+            <ListSpents setEditSpent={setEditSpent} spents={spents} />
           </main>
           <div className="nuevo-gasto">
             <img
@@ -58,6 +71,8 @@ function App() {
         animateModal={animateModal}
         setAnimateModal={setAnimateModal}
         saveSpent={saveSpent}
+        setEditSpent={setEditSpent}
+        editSpent={editSpent}
         />
       }
     </div>
