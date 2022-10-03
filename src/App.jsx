@@ -29,8 +29,9 @@ function App() {
   }
 
   return (
-    <div className={modal && 'fijar'}>
+    <div className={modal ? 'fijar' : ''}>
       <Header
+        spents={spents}
         budget={budget}
         setBudget={setBudget}
         validBudget={validBudget}
