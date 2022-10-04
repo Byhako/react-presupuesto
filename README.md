@@ -1,2 +1,4 @@
-# react-presupuesto
+# Planificador de gastos
+
+![vista](./screenshot.png)
  

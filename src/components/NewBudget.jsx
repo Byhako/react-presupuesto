@@ -16,18 +16,28 @@ const NewBudget = ({ budget, setBudget, setValidBudget }) => {
     }
   }
 
+  const handleInput = e => {
+    if (Number(e.target.value) || e.target.value === '0') {
+      setBudget(Number(e.target.value))
+    } else if (e.target.value === '') {
+      setBudget('')
+    } else {
+      if (Number(budget)) setBudget(budget)
+    }
+  }
+
   return (
     <div className='contenedor-presupuesto contenedor sombra'>
       <form onSubmit={handleBudget} className='formulario'>
         <div className="campo">
           <label htmlFor="nuevo-presupuesto">Definir Presupuesto</label>
           <input
-            type="number"
+            type="text"
             className='nuevo-presupuesto'
             placeholder='Agrega tu presupuesto'
             id='nuevo-presupuesto'
             value={budget}
-            onChange={e => setBudget(Number(e.target.value))}
+            onChange={handleInput}
           />
         </div>
 

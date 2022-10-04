@@ -27,7 +27,7 @@ const dicIcons = {
   gastos: IconoGastos
 }
 
-const ListSpents = ({ spents, setEditSpent, handleDelete }) => {
+const ListSpents = ({ spents, setEditSpent, handleDelete, filtro, gastosFiltrados }) => {
   
   const leadingActions = (spent) => (
     <LeadingActions>
@@ -45,35 +45,50 @@ const ListSpents = ({ spents, setEditSpent, handleDelete }) => {
     </TrailingActions>
   )
 
+  const Spent = ({spent}) => (
+    <SwipeableList>
+      <SwipeableListItem
+        leadingActions={leadingActions(spent)}
+        trailingActions={trailingActions(spent.id)}
+      >
+        <div className='gasto sombra'>
+          <div className="contenido-gasto">
+            <img  src={dicIcons[spent.category]} alt={spent.category} />
+            <div className="descripcion-gasto">
+              <p className="categoria">{spent.category}</p>
+              <p className="nombre-gasto">{spent.nombre}</p>
+              <p className="fecha-gasto">
+                Agregado el: {' '}
+                <span>{formatDate(spent.date)}</span>
+              </p>
+            </div>
+          </div>
+
+          <p className="cantidad-gasto">${spent.cantidad}</p>
+        </div>
+      </SwipeableListItem>
+    </SwipeableList>
+  )
+
   return (
     <div className="listado-gastos contenedor">
-      <h2>{spents.length ? 'Gastos' : 'No hay gastos'}</h2>
 
+      {filtro ? (
+        <>
+          <h2>{gastosFiltrados.length ? 'Gastos' : 'No hay gastos'}</h2>
+          {gastosFiltrados.map(spent => (
+            <Spent key={spent.id} spent={spent} />
+          ))}
+        </>
+      ) : (
+        <>
+          <h2>{spents.length ? 'Gastos' : 'No hay gastos'}</h2>
+          {spents.map(spent => (
+            <Spent key={spent.id} spent={spent} />
+          ))}
+        </>
+      )}
 
-      {spents.map(spent => (
-        <SwipeableList key={spent.id}>
-          <SwipeableListItem
-            leadingActions={leadingActions(spent)}
-            trailingActions={trailingActions(spent.id)}
-          >
-            <div className='gasto sombra'>
-              <div className="contenido-gasto">
-                <img  src={dicIcons[spent.category]} alt={spent.category} />
-                <div className="descripcion-gasto">
-                  <p className="categoria">{spent.category}</p>
-                  <p className="nombre-gasto">{spent.nombre}</p>
-                  <p className="fecha-gasto">
-                    Agregado el: {' '}
-                    <span>{formatDate(spent.date)}</span>
-                  </p>
-                </div>
-              </div>
-
-              <p className="cantidad-gasto">${spent.cantidad}</p>
-            </div>
-          </SwipeableListItem>
-        </SwipeableList>
-      ))}
     </div>
   )
 }
