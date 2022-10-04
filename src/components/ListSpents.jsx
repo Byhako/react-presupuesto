@@ -37,9 +37,9 @@ const ListSpents = ({ spents, setEditSpent, handleDelete }) => {
     </LeadingActions>
   )
 
-  const trailingActions = (id, nombre) => (
+  const trailingActions = (id) => (
     <TrailingActions>
-      <SwipeAction destructive onClick={() => handleDelete(id, nombre)}>
+      <SwipeAction destructive onClick={() => handleDelete(id)}>
         Borrar
       </SwipeAction>
     </TrailingActions>
@@ -54,7 +54,7 @@ const ListSpents = ({ spents, setEditSpent, handleDelete }) => {
         <SwipeableList key={spent.id}>
           <SwipeableListItem
             leadingActions={leadingActions(spent)}
-            trailingActions={trailingActions(spent.id, spent.nombre)}
+            trailingActions={trailingActions(spent.id)}
           >
             <div className='gasto sombra'>
               <div className="contenido-gasto">
